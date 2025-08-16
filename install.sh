@@ -16,7 +16,7 @@ echo -e "${BLUE}================================${NC}\n"
 
 # Configuration
 DOCS_DIR="$HOME/.claude-docs"
-GITHUB_REPO="https://github.com/jamesrosing/claude-local-docs.git"
+GITHUB_REPO="https://github.com/tacit-code/claude-local-docs.git"
 CLAUDE_COMMANDS="$HOME/.claude/commands"
 
 # Check for required tools

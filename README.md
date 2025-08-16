@@ -14,7 +14,7 @@
 ## Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jamesrosing/claude-local-docs/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/tacit-code/claude-local-docs/main/install.sh | bash
 ```
 
 ## What It Does
@@ -49,7 +49,7 @@ After installation, use the `/docs` command in Claude:
 
 ```bash
 # Clone the repository
-git clone https://github.com/jamesrosing/claude-local-docs.git ~/.claude-docs
+git clone https://github.com/tacit-code/claude-local-docs.git ~/.claude-docs
 
 # Run setup
 cd ~/.claude-docs
