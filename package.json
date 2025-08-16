@@ -1,0 +1,25 @@
+{
+  "name": "claude-local-docs",
+  "version": "1.0.0",
+  "description": "Local documentation system for Claude Code",
+  "main": "scripts/index.js",
+  "scripts": {
+    "fetch": "node scripts/fetch-docs.js",
+    "index": "node scripts/index-docs.js",
+    "search": "node scripts/search.js",
+    "setup": "npm run fetch && npm run index",
+    "sync": "./sync.sh"
+  },
+  "keywords": [
+    "claude",
+    "documentation",
+    "local",
+    "search"
+  ],
+  "author": "jamesrosing",
+  "license": "MIT",
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

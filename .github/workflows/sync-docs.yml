@@ -1,0 +1,71 @@
+name: Sync Claude Documentation
+
+on:
+  schedule:
+    # Run every 3 hours
+    - cron: '0 */3 * * *'
+  
+  workflow_dispatch: # Allow manual trigger
+  
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/sync-docs.yml'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci --silent
+      
+      - name: Fetch latest documentation
+        run: |
+          echo "📚 Fetching latest Claude Code documentation..."
+          node scripts/fetch-docs.js
+      
+      - name: Build search index
+        run: |
+          echo "🔍 Building search index..."
+          node scripts/index-docs.js
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config --global user.name 'Claude Docs Bot'
+          git config --global user.email 'bot@claude-local-docs.com'
+          git commit -m "📚 Update documentation $(date +%Y-%m-%d_%H:%M:%S)"
+          git push
+      
+      - name: Summary
+        run: |
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+            echo "✅ Documentation updated successfully"
+          else
+            echo "✅ Documentation is already up to date"
+          fi
